@@ -1,0 +1,23 @@
+{
+  "name": "aoc-2023",
+  "version-semver": "0.1.0",
+  "dependencies": [
+    {
+      "name": "fmt",
+      "version>=": "10.1.0"
+    }
+  ],
+  "default-features": [],
+  "features": {
+    "test": {
+      "description": "Dependencies for testing",
+      "dependencies": [
+        {
+          "name": "catch2",
+          "version>=": "3.4.0"
+        }
+      ]
+    }
+  },
+  "builtin-baseline": "8ee46dc72f75fc3d8d8dc90386bf7e84f2eb7450"
+}
