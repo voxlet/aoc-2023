@@ -1,6 +1,10 @@
+#include <algorithm>
+#include <cstddef>
+#include <iostream>
+
 #include "parse.hpp"
 
-CubeCount max_cube_count(const Game& game) {
+auto max_cube_count(const Game& game) -> CubeCount {
   CubeCount max;
 
   for (const auto& cube_count : game.cube_counts) {
@@ -12,11 +16,11 @@ CubeCount max_cube_count(const Game& game) {
   return max;
 }
 
-size_t power(const CubeCount& cube_count) {
+auto power(const CubeCount& cube_count) -> size_t {
   return cube_count.red * cube_count.green * cube_count.blue;
 }
 
-int main() {
+auto main() -> int {
   const auto games = parse();
 
   size_t power_sum = 0;
@@ -24,7 +28,7 @@ int main() {
   for (const auto& game : games) {
     std::cout << "game: " << game << '\n';
 
-    CubeCount max = max_cube_count(game);
+    const CubeCount max = max_cube_count(game);
     std::cout << "max: " << max << '\n';
 
     power_sum += power(max);

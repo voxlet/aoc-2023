@@ -1,12 +1,10 @@
 #include <fstream>
-#include <vector>
-#include <ranges>
-#include <string_view>
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <stdexcept>
 #include <ranges>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <vector>
 
 struct CubeCount {
   size_t red = 0;
@@ -14,23 +12,27 @@ struct CubeCount {
   size_t blue = 0;
 };
 
-std::ostream& operator<<(std::ostream& os, const CubeCount& cube_count) {
-  os << cube_count.red << " red, " << cube_count.green << " green, " << cube_count.blue << " blue" << '\n';
-  return os;
-}
-
 struct Game {
   uint id;
   std::vector<CubeCount> cube_counts;
 };
 
-std::ostream& operator<<(std::ostream& os, const Game& game) {
-  os << "Game " << game.id << ": " << '\n';
-  for (const auto& cube_count : game.cube_counts) {
-    os << cube_count;
-  }
-  return os;
+inline auto operator<<(std::ostream& out, const CubeCount& cube_count)
+  -> std::ostream& {
+  out << cube_count.red << " red, " << cube_count.green << " green, "
+      << cube_count.blue << " blue" << '\n';
+  return out;
 }
+
+inline auto operator<<(std::ostream& out, const Game& game) -> std::ostream& {
+  out << "Game " << game.id << ": " << '\n';
+  for (const auto& cube_count : game.cube_counts) {
+    out << cube_count;
+  }
+  return out;
+}
+
+namespace details {
 
 using std::literals::operator""sv;
 
@@ -40,14 +42,15 @@ constexpr auto grab_delim = "; "sv;
 constexpr auto cube_delim = ", "sv;
 constexpr auto color_delim = " "sv;
 
-std::string_view to_string_view(std::ranges::subrange<const char*> range) {
-  return std::string_view(
-    range.begin(),
-    static_cast<size_t>(std::distance(range.begin(), range.end()))
-  );
+inline auto to_string_view(std::ranges::subrange<const char*> range)
+  -> std::string_view {
+  return {range.begin(),
+          static_cast<size_t>(std::distance(range.begin(), range.end()))};
 }
 
-void assign_cube_count(CubeCount& cube_count, std::string_view color_str, size_t count) {
+inline void assign_cube_count(CubeCount& cube_count,
+                              std::string_view color_str,
+                              size_t count) {
   if (color_str == "red") {
     cube_count.red = count;
   } else if (color_str == "green") {
@@ -55,11 +58,13 @@ void assign_cube_count(CubeCount& cube_count, std::string_view color_str, size_t
   } else if (color_str == "blue") {
     cube_count.blue = count;
   } else {
-    throw std::runtime_error(std::string("Unknown color: ") + std::string(color_str));
+    throw std::runtime_error(std::string("Unknown color: ")
+                             + std::string(color_str));
   }
 }
 
-std::vector<CubeCount> parse_cube_counts(std::string_view grabs_str) {
+inline auto parse_cube_counts(std::string_view grabs_str)
+  -> std::vector<CubeCount> {
   std::vector<CubeCount> cube_counts;
 
   for (const auto& grab : grabs_str | std::views::split(grab_delim)) {
@@ -79,25 +84,28 @@ std::vector<CubeCount> parse_cube_counts(std::string_view grabs_str) {
   return cube_counts;
 }
 
-Game parse_game(std::string_view line) {
+inline auto parse_game(std::string_view line) -> Game {
   const auto game_pos = line.find(game_delim);
-  const auto game_id_str = line.substr(game_token_length, game_pos - game_token_length);
-  const auto id = std::stoi(std::string(game_id_str));
+  const auto game_id_str =
+    line.substr(game_token_length, game_pos - game_token_length);
+  const auto game_id = std::stoi(std::string(game_id_str));
 
   line.remove_prefix(game_pos + game_delim.length());
 
   return Game{
-    .id = static_cast<uint>(id),
+    .id = static_cast<uint>(game_id),
     .cube_counts = parse_cube_counts(line),
   };
 }
 
-std::vector<Game> parse() {
+}  // namespace details
+
+inline auto parse() -> std::vector<Game> {
   std::ifstream input("../../../../source/day2/input.txt");
   std::vector<Game> games;
 
   for (std::string line; std::getline(input, line);) {
-    games.push_back(parse_game(line));
+    games.push_back(details::parse_game(line));
   }
 
   return games;

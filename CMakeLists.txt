@@ -15,6 +15,7 @@ include(cmake/variables.cmake)
 
 add_subdirectory(source/day1)
 add_subdirectory(source/day2)
+add_subdirectory(source/day3)
 
 # ---- Declare library ----
 

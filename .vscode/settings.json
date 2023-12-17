@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "ranges": "cpp",
+    "string_view": "cpp",
+    "stdexcept": "cpp",
+    "variant": "cpp"
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "C_Cpp.intelliSenseEngine": "disabled"
+}
