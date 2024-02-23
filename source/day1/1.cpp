@@ -1,10 +1,16 @@
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <ranges>
+#include <stdexcept>
+#include <string>
 #include <unordered_set>
 
-auto to_int(char ascii) -> uint {
-  return static_cast<uint>(ascii - '0');
+auto to_int(char ascii) -> uint32_t {
+  return static_cast<uint32_t>(ascii - '0');
 }
 
 auto find_first_digit(const std::ranges::range auto& line) {

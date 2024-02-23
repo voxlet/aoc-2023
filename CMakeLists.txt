@@ -12,10 +12,15 @@ project(
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
+include(cmake/dependencies.cmake)
+
+link_libraries(range-v3::range-v3)
+link_libraries(concurrencpp::concurrencpp)
 
 add_subdirectory(source/day1)
 add_subdirectory(source/day2)
 add_subdirectory(source/day3)
+add_subdirectory(source/day4)
 
 # ---- Declare library ----
 

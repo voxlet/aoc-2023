@@ -1,11 +1,17 @@
 #include <algorithm>
 #include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <ranges>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 
-const auto digits = std::unordered_map<std::string, uint>{
+const auto digits = std::unordered_map<std::string, uint32_t>{
   {"1", 1},
   {"2", 2},
   {"3", 3},
@@ -38,7 +44,7 @@ auto find_digit(std::string_view line, size_t start, size_t end) {
   return digits.cend();
 }
 
-auto find_left(std::string_view line) -> uint {
+auto find_left(std::string_view line) -> uint32_t {
   size_t start = 0;
   for (const auto end : std::views::iota(size_t{1}, line.length() + 1)) {
     if (end - start > max_digit_length) {
@@ -55,7 +61,7 @@ auto find_left(std::string_view line) -> uint {
                            + std::string(line));
 }
 
-auto find_right(std::string_view line) -> uint {
+auto find_right(std::string_view line) -> uint32_t {
   size_t end = line.length();
   for (const auto start :
        std::views::iota(size_t{0}, line.length()) | std::views::reverse)
@@ -75,7 +81,7 @@ auto find_right(std::string_view line) -> uint {
 
 auto main() -> int {
   try {
-    uint sum = 0;
+    uint32_t sum = 0;
 
     std::ifstream input("../../../../source/day1/input.txt");
 
