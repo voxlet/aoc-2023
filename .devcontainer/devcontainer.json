@@ -1,23 +1,30 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-	"name": "C++",
+	"name": "aoc-2023",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"username": "vscode",
-			"userUid": "1000",
-			"userGid": "1000"
-		}
+			"configureZshAsDefaultShell": "true"
+		},
+		"ghcr.io/devcontainers/features/go:1": {}
 	},
 	"containerUser": "vscode",
+	"containerEnv": {
+		"GOEXPERIMENT": "rangefunc"
+	},
 	"runArgs": [
 		"--userns=keep-id"
 	],
-	"capAdd": ["SYS_PTRACE"],
-	"securityOpt": ["seccomp=unconfined"],
+	"capAdd": [
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
