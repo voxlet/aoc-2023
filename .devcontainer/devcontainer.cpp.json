@@ -2,12 +2,15 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
 	"name": "aoc-2023",
-	"image": "mcr.microsoft.com/devcontainers/go:1.22",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"username": "vscode",
 			"configureZshAsDefaultShell": "true"
-		}
+		},
+		"ghcr.io/devcontainers/features/go:1": {}
 	},
 	"containerUser": "vscode",
 	"containerEnv": {
@@ -15,7 +18,22 @@
 	},
 	"runArgs": [
 		"--userns=keep-id"
-	]
+	],
+	"capAdd": [
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined"
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cmake-tools",
+				"llvm-vs-code-extensions.vscode-clangd"
+			]
+		}
+	}
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

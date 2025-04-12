@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	inputs := parse.Parse("source/dayn/input.txt")
+	input := parse.Parse("source/dayn/input.txt")
 }

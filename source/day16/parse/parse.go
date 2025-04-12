@@ -3,10 +3,11 @@ package parse
 import (
 	"bufio"
 	"os"
-	"strings"
 )
 
 type Input struct {
+	Rows     []string
+	ColCount int
 }
 
 func Parse(path string) Input {
@@ -18,15 +19,19 @@ func Parse(path string) Input {
 
 	lines := bufio.NewScanner(file)
 
-	input := Input{}
+	input := Input{
+		Rows: make([]string, 0),
+	}
 
 	for lines.Scan() {
-		fields := strings.Fields(lines.Text())
+		input.Rows = append(input.Rows, lines.Text())
 	}
 
 	if lines.Err() != nil {
 		panic(lines.Err())
 	}
+
+	input.ColCount = len(input.Rows[0])
 
 	return input
 }

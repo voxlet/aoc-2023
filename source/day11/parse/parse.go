@@ -3,13 +3,9 @@ package parse
 import (
 	"bufio"
 	"os"
-	"strings"
 )
 
-type Input struct {
-}
-
-func Parse(path string) Input {
+func Parse(path string) []string {
 	file, err := os.Open(path)
 	if err != nil {
 		panic(path)
@@ -18,15 +14,15 @@ func Parse(path string) Input {
 
 	lines := bufio.NewScanner(file)
 
-	input := Input{}
+	inputs := make([]string, 0)
 
 	for lines.Scan() {
-		fields := strings.Fields(lines.Text())
+		inputs = append(inputs, lines.Text())
 	}
 
 	if lines.Err() != nil {
 		panic(lines.Err())
 	}
 
-	return input
+	return inputs
 }
